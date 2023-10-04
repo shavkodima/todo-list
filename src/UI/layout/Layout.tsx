@@ -5,8 +5,9 @@ import Menu from 'antd/es/menu'
 import {FC} from 'react';
 import styles from './layout.module.css'
 import {Outlet} from 'react-router-dom'
-const navLink = ['Home', 'Add task']
-
+import { NAVLINK } from '../../utils/const';
+import { ILink } from '../../types/link.type';
+import {Link} from 'react-router-dom'
 
 const LayoutApp:FC = () => {
   return (
@@ -17,10 +18,12 @@ const LayoutApp:FC = () => {
           theme='dark'
           mode='inline'
           items={
-            navLink.map(
-              (nav, index)=> ({
-                key:String(nav+index),
-                label:nav,
+            NAVLINK.map(
+              (nav:ILink, index)=> ({
+                key:String(nav.title),
+                label:(
+                  <Link to={nav.url}>{nav.title}</Link>
+                ),
                 
               }))
           }
