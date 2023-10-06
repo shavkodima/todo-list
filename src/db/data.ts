@@ -22,4 +22,11 @@ export const fakeData: ITodo[] = [
     date: new Date('10.10.2023').toString(),
     isActiv: true
   },
+  {
+    id: 3,
+    title:'title 2',
+    description: 'lorem 3',
+    date: new Date('10.10.2023').toString(),
+    isActiv: true
+  },
 ]
