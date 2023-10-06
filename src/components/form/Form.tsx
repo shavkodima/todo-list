@@ -1,33 +1,40 @@
-import {FC, useState} from 'react';
+import {FC} from 'react';
 import {Form, Input, Button} from 'antd'
-import CreateTodoClass from '../../utils/constructorTodo';
-import { useAppDispatch } from '../../hooks/useSelectorTodos';
-import { dispatchAddTodo } from '../../store/sliceTodos/sliceTodos';
+
 
 const {TextArea} = Input
 
-const Forms:FC = () => {
-  const [form] = Form.useForm()
-  const [title, setTitle] = useState<string>()
-  const [description, setDescription] = useState<string>()
-  const dispatch:any = useAppDispatch()
+interface IPropsForm{
+  flagEdit?:boolean
+  handler:()=>void
+  setTitle:(value:string)=> void
+  setDescription:(value:string)=>void
+  title:string
+  description:string
+}
 
-  const handleFromSubmit = (e:React.FormEvent) =>{
-    e.preventDefault()    
-    const todo =  new CreateTodoClass(title, description)
-    form.resetFields()
-    
-    dispatch(dispatchAddTodo(todo))
+const Forms:FC<IPropsForm> = ({flagEdit=false, handler, setTitle, setDescription, title, description}) => {
+  const [form] = Form.useForm()
+  
+  const handleFormSubmit = (e: React.MouseEvent<HTMLElement>) =>{    
+    handler()
+
+    if(!flagEdit){
+      form.resetFields();   
+    }
   }
+
 
   return (
     <div>
         <Form
         form={form}
-        name='control-hooks'
         layout='vertical'
-        >
-          <Form.Item label='Title' name={'Title'} rules={[{required:true, message:'Please enter title'}]}>
+        name='hooks'
+        onFinish={handleFormSubmit}
+        initialValues={flagEdit ? {title, description}: {title:'', description:''}}
+      >
+          <Form.Item id='1' label='Title' name={'title'} rules={[{required:true, message:'Please enter title'}]}>
               <Input 
                 type='text' 
                 onChange={(e)=> setTitle(e.target.value)} 
@@ -35,15 +42,17 @@ const Forms:FC = () => {
                 placeholder='Enter title'
                 />
           </Form.Item>
-          <Form.Item label='Description' name={'Description'} rules={[{required:true, message:'Please enter description'}]}>
+          <Form.Item label='Description' name={'description'} rules={[{required:true, message:'Please enter description'}]}>
               <TextArea 
                 rows={4}
                 onChange={(e)=> setDescription(e.target.value)} 
                 value={description}
+                placeholder='Enter description'
+
                 />
           </Form.Item>
           <Form.Item>
-              <Button type='primary' htmlType='submit' onClick={handleFromSubmit}>Add</Button>
+              <Button type='primary' htmlType='submit' >{flagEdit ? 'Save' : 'Add'}</Button>
           </Form.Item>
         </Form>
     </div>

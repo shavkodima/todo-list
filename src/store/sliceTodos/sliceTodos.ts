@@ -1,6 +1,7 @@
 import { Dispatch, PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { IStoreTodos } from "../../types/store.type";
 import { ITodo } from "../../types/todo.type";
+import { parseDate } from "../../utils/parseDate";
 
 
 const defaultTodos:IStoreTodos = {
@@ -45,6 +46,24 @@ export const dispatchAllTodo = (todos:ITodo[]) => async(dispatch:Dispatch) =>{
       
     },3000)
 
+  } catch (error:any) {
+    dispatch(setError(error.message))
+    dispatch(setLoading(false))
+  }
+}
+
+export const dispatchUpdateTodo = (id:number, todos:ITodo[], title:string, description:string) => async(dispatch:Dispatch) =>{
+  try {
+    dispatch(setLoading(true))
+    const newTodos:ITodo[] = todos.map(todo=> {
+      if(todo.id === id){
+        return {...todo, title, description, date:parseDate()}
+      }
+
+      return todo
+    })  
+      dispatch(allTodos(newTodos))
+      dispatch(setLoading(false))
   } catch (error:any) {
     dispatch(setError(error.message))
     dispatch(setLoading(false))

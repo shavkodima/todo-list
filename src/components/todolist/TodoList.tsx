@@ -11,7 +11,7 @@ import classes from './todo.module.css'
 const TodoList: FC = () => {
   const { todos, loading } = useSelector((state: RootState) => state.todos)
   const dispatch: any = useDispatch()
-   
+
   const handleDeleteTodo = (id: number) => {
     dispatch(dispatchDeleteTodo(id, todos))
   }
@@ -22,7 +22,7 @@ const TodoList: FC = () => {
     )
   }
 
- 
+
 
   return (
     <>
@@ -33,9 +33,9 @@ const TodoList: FC = () => {
         pagination={{
           defaultPageSize: 3,
           align: 'start',
-          hideOnSinglePage:true
+          hideOnSinglePage: true
         }}
-        locale={{  emptyText: !todos.length ? 'Пусто' : '' }}
+        locale={{ emptyText: !todos.length ? 'Пусто' : '' }}
         renderItem={(item: ITodo) => (
           <List.Item
             className={classes.item}
@@ -51,13 +51,14 @@ const TodoList: FC = () => {
               ]
             }
           >
-            <List.Item.Meta title={<p>{item.title}</p>} />
-            <List.Item.Meta description={
-              <p>{item.description.length > maxLetters
-                ? item.description.split('').splice(0, maxLetters).join('') + '...' :
-                item.description}</p>} />
-            <List.Item.Meta description={
-              <p>{item.date}</p>} />
+            <Link to={`/view/${item.id}`}>
+              <List.Item.Meta title={<p>{item.title}</p>} />
+              <List.Item.Meta description={
+                <p>{item.description.length > maxLetters
+                  ? item.description.split('').splice(0, maxLetters).join('') + '...' :
+                  item.description}</p>} />
+              <List.Item.Meta description={<p>{item.date}</p>} />
+            </Link>
           </List.Item>
         )}
 

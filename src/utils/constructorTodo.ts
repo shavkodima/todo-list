@@ -1,3 +1,4 @@
+import { parseDate } from "./parseDate"
 
 
 class CreateTodoClass {
@@ -5,7 +6,7 @@ class CreateTodoClass {
    title:string = ''
    description:string = ''
    isActiv:boolean = false
-   date = new Date().toString()
+   date = parseDate()
   constructor(title:string = '', description:string = ''){
     this.title = title
     this.description = description

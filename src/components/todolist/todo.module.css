@@ -1,6 +1,11 @@
 .item{
 padding: 10px !important;
 background-color: #fff;
+transition: all 1s;
+}
+
+.item:hover{
+  transform: translateY(-3px);
 }
 
 .item:not(:last-child){
