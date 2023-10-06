@@ -6,10 +6,11 @@ import Times from '../times/Times';
 
 const Header:FC = () => {
   const location = useLocation()
-
+  
   return (
     <div className={styles.header}>
-        {NAVLINK.find(nav=> nav.url === location.pathname)?.title} {<Times />}
+        <div>{NAVLINK.find(nav=> nav.url.toLocaleLowerCase().lastIndexOf(location.pathname) >= 0 )?.title}</div>
+        <div>{<Times />}</div>
     </div>
   );
 };

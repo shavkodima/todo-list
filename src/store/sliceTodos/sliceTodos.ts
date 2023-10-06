@@ -4,89 +4,91 @@ import { ITodo } from "../../types/todo.type";
 import { parseDate } from "../../utils/parseDate";
 
 
-const defaultTodos:IStoreTodos = {
-  todos:[],
-  loading:false,
-  error:''
+const defaultTodos: IStoreTodos = {
+  todos: [],
+  loading: false,
+  error: '',
 }
 
 export const sliceTodos = createSlice({
-  name:'sliceTodos',
-  initialState:defaultTodos,
-  reducers:{
-    allTodos:(state, action:PayloadAction<ITodo[]>)=>{
+  name: 'sliceTodos',
+  initialState: defaultTodos,
+  reducers: {
+    allTodos: (state, action: PayloadAction<ITodo[]>) => {
       state.todos = action.payload
     },
-    addTodo:(state, action:PayloadAction<ITodo>)=>{      
+    addTodo: (state, action: PayloadAction<ITodo>) => {
       state.todos = [...state.todos, action.payload]
     },
-    editTodo:()=>{
 
-    },
-    removeTodo:(state, action:PayloadAction<ITodo[]>)=>{
+    removeTodo: (state, action: PayloadAction<ITodo[]>) => {
       state.todos = action.payload
     },
-    setLoading:(state, action:PayloadAction<boolean>)=>{
-        state.loading = action.payload
+
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload
     },
-    setError:(state, action:PayloadAction<string>)=>{
+
+    setError: (state, action: PayloadAction<string>) => {
       state.error = action.payload
-  }
+    },
   },
 })
 
-export const {addTodo, removeTodo, setLoading, setError, allTodos} = sliceTodos.actions
+export const { addTodo, removeTodo, setLoading, setError, allTodos } = sliceTodos.actions
 
-export const dispatchAllTodo = (todos:ITodo[]) => async(dispatch:Dispatch) =>{
-  try {    
-    dispatch(setLoading(true))
-    setTimeout(()=>{
-      dispatch(allTodos(todos))
-      dispatch(setLoading(false))
-      
-    },3000)
 
-  } catch (error:any) {
-    dispatch(setError(error.message))
-    dispatch(setLoading(false))
-  }
-}
 
-export const dispatchUpdateTodo = (id:number, todos:ITodo[], title:string, description:string) => async(dispatch:Dispatch) =>{
+export const dispatchAllTodo = (todos: ITodo[]) => async (dispatch: Dispatch) => {
   try {
     dispatch(setLoading(true))
-    const newTodos:ITodo[] = todos.map(todo=> {
-      if(todo.id === id){
-        return {...todo, title, description, date:parseDate()}
-      }
-
-      return todo
-    })  
-      dispatch(allTodos(newTodos))
+    setTimeout(() => {
+      dispatch(allTodos(todos))
       dispatch(setLoading(false))
-  } catch (error:any) {
+
+    }, 3000)
+
+  } catch (error: any) {
     dispatch(setError(error.message))
     dispatch(setLoading(false))
   }
 }
 
-export const dispatchDeleteTodo = (id:number, todos:ITodo[]) => async(dispatch:Dispatch) =>{
-    try {
-      dispatch(setLoading(true))
-      const newTodos:ITodo[] = todos.filter(todo=> todo.id != id)  
-        dispatch(removeTodo(newTodos))
-        dispatch(setLoading(false))
-    } catch (error:any) {
-      dispatch(setError(error.message))
-      dispatch(setLoading(false))
-    }
+export const dispatchUpdateTodo = (id: number, todos: ITodo[], title: string, description: string) => async (dispatch: Dispatch) => {
+  try {
+    dispatch(setLoading(true))
+    const newTodos: ITodo[] = todos.map(todo => {
+      if (todo.id === id) {
+        return { ...todo, title, description, date: parseDate() }
+      }
+      return todo
+    })
+
+    dispatch(allTodos(newTodos))
+    dispatch(setLoading(false))
+  } catch (error: any) {
+    dispatch(setError(error.message))
+    dispatch(setLoading(false))
+  }
+}
+
+export const dispatchDeleteTodo = (id: number, todos: ITodo[]) => async (dispatch: Dispatch) => {
+  try {
+    dispatch(setLoading(true))
+    const newTodos: ITodo[] = todos.filter(todo => todo.id != id)
+    dispatch(removeTodo(newTodos))
+    dispatch(setLoading(false))
+  } catch (error: any) {
+    dispatch(setError(error.message))
+    dispatch(setLoading(false))
+  }
 }
 
 
-export const dispatchAddTodo = (todo:ITodo) => async(dispatch:Dispatch) =>{
-  try {      
-    dispatch(addTodo({...todo}))
-  } catch (error:any) {
+export const dispatchAddTodo = (todo: ITodo) => async (dispatch: Dispatch) => {
+  try {
+    dispatch(addTodo({ ...todo }))
+  } catch (error: any) {
     setError(error.message)
   }
 }

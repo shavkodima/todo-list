@@ -1,4 +1,5 @@
 import {FC, useEffect, useState} from 'react';
+import { addZero } from '../../utils/parseDate';
 
 const Times = () => {
   const [time, setTime] = useState<string>()
@@ -6,14 +7,14 @@ const Times = () => {
   useEffect(()=>{
     setInterval(()=>{
       const date = new Date();
-      const times = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
+      const times = addZero(date.getHours()) + ":" + addZero(date.getMinutes()) + ":" + addZero(date.getSeconds())
       setTime(times)
     },1000)
   },[])
 
   return (
     <div>
-      
+      {time}
     </div>
   );
 };

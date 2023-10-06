@@ -1,12 +1,13 @@
 import { FC } from 'react';
 import { ITodo } from '../../types/todo.type';
-import { List, Button, Skeleton } from 'antd'
+import { List, Button } from 'antd'
 import { Link } from 'react-router-dom'
 import { RootState } from '../../store/store';
 import { useSelector, useDispatch } from 'react-redux'
 import { dispatchDeleteTodo } from '../../store/sliceTodos/sliceTodos';
 import { maxLetters } from '../../utils/const';
 import classes from './todo.module.css'
+import SkeletonComponent from '../skeleton/Skeleton';
 
 const TodoList: FC = () => {
   const { todos, loading } = useSelector((state: RootState) => state.todos)
@@ -18,7 +19,7 @@ const TodoList: FC = () => {
 
   if (loading) {
     return (
-      <Skeleton paragraph={{ rows: 3 }} />
+      <SkeletonComponent row={4} />
     )
   }
 
@@ -41,6 +42,7 @@ const TodoList: FC = () => {
             className={classes.item}
             actions={
               [
+                <Link to={`/view/${item.id}`}>View</Link>,
                 <Link to={`edit/${item.id}`} key={item.id}>Edit</Link>,
                 <Button
                   type='primary'
@@ -48,17 +50,17 @@ const TodoList: FC = () => {
                   onClick={() => handleDeleteTodo(item.id)}>
                   Delete
                 </Button>
+               
               ]
             }
           >
-            <Link to={`/view/${item.id}`}>
+           
               <List.Item.Meta title={<p>{item.title}</p>} />
               <List.Item.Meta description={
                 <p>{item.description.length > maxLetters
                   ? item.description.split('').splice(0, maxLetters).join('') + '...' :
                   item.description}</p>} />
               <List.Item.Meta description={<p>{item.date}</p>} />
-            </Link>
           </List.Item>
         )}
 

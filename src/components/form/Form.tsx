@@ -1,5 +1,6 @@
 import {FC} from 'react';
 import {Form, Input, Button} from 'antd'
+import ModalSuccess from '../modal/Modal';
 
 
 const {TextArea} = Input
@@ -16,14 +17,15 @@ interface IPropsForm{
 const Forms:FC<IPropsForm> = ({flagEdit=false, handler, setTitle, setDescription, title, description}) => {
   const [form] = Form.useForm()
   
+
+
   const handleFormSubmit = (e: React.MouseEvent<HTMLElement>) =>{    
     handler()
-
     if(!flagEdit){
       form.resetFields();   
     }
+    ModalSuccess(flagEdit ? 'Todo Save' : 'Todo added')
   }
-
 
   return (
     <div>

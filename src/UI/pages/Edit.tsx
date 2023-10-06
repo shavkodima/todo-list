@@ -6,6 +6,7 @@ import CreateTodoClass from '../../utils/constructorTodo';
 import { dispatchAddTodo, dispatchUpdateTodo } from '../../store/sliceTodos/sliceTodos';
 import { RootState } from '../../store/store';
 import { ITodo } from '../../types/todo.type';
+import SkeletonComponent from '../../components/skeleton/Skeleton';
 
 
 
@@ -26,12 +27,14 @@ const Edit:FC = () => {
     }
   },[loading ,])
   
-  
-  const handleFormSave = () =>{
-      console.log(title, description, params.id);
-      
-        
+  const handleFormSave = () =>{  
     dispatch(dispatchUpdateTodo(Number(params.id),todos, title, description))
+  }
+
+  if(!todo){
+    return(
+      <SkeletonComponent row={4}/>
+    )
   }
 
   return (

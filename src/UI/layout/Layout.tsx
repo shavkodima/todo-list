@@ -1,4 +1,4 @@
-import { Layout } from 'antd';
+import { Layout, Button } from 'antd';
 import Sider from 'antd/es/layout/Sider';
 import { Content } from 'antd/es/layout/layout';
 import Menu from 'antd/es/menu'
@@ -9,7 +9,7 @@ import { NAVLINK } from '../../utils/const';
 import { ILink } from '../../types/link.type';
 import { Link } from 'react-router-dom'
 import Header from '../../components/header/Header';
-import {useLocation} from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 const LayoutApp: FC = () => {
   const location = useLocation()
@@ -24,13 +24,13 @@ const LayoutApp: FC = () => {
             NAVLINK.map(
               (nav: ILink, index) => (
                 nav.menu ?
-                {
-                key: String(nav.title),
-                label: (
-                  <Link to={nav.url}>{nav.title}</Link>
-                ),
-              }
-              : null
+                  {
+                    key: String(nav.title),
+                    label: (
+                      <Link to={nav.url}>{nav.title}</Link>
+                    ),
+                  }
+                  : null
               )
             )
           }
@@ -39,7 +39,14 @@ const LayoutApp: FC = () => {
       <Layout>
         <Header />
         <Content style={{ padding: '24px' }}>
-          {location.pathname !== NAVLINK[0].url ? <Link to={NAVLINK[0].url}>Back to home</Link> : ''}
+          
+            {location.pathname !== NAVLINK[0].url 
+              ? <div className={styles.breadcrumbs}><Link to={NAVLINK[0].url}>
+              <Button type='primary'> Back to home </Button>
+              </Link></div> 
+              : ''
+            }
+          
           {<Outlet />}
         </Content>
       </Layout>
