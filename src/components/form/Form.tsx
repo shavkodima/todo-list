@@ -1,5 +1,8 @@
 import {FC, useState} from 'react';
 import {Form, Input, Button} from 'antd'
+import CreateTodoClass from '../../utils/constructorTodo';
+import { useAppDispatch } from '../../hooks/useSelectorTodos';
+import { dispatchAddTodo } from '../../store/sliceTodos/sliceTodos';
 
 const {TextArea} = Input
 
@@ -7,9 +10,14 @@ const Forms:FC = () => {
   const [form] = Form.useForm()
   const [title, setTitle] = useState<string>()
   const [description, setDescription] = useState<string>()
+  const dispatch:any = useAppDispatch()
 
   const handleFromSubmit = (e:React.FormEvent) =>{
     e.preventDefault()    
+    const todo =  new CreateTodoClass(title, description)
+    form.resetFields()
+    
+    dispatch(dispatchAddTodo(todo))
   }
 
   return (

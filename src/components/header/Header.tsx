@@ -1,23 +1,15 @@
-import {FC, useEffect, useState} from 'react';
+import {FC} from 'react';
 import {useLocation} from 'react-router-dom'
 import styles from './header.module.css'
 import { NAVLINK } from '../../utils/const';
+import Times from '../times/Times';
 
 const Header:FC = () => {
-  const [time, setTime] = useState<string>()
   const location = useLocation()
-  
-  useEffect(()=>{
-    setInterval(()=>{
-      const date = new Date();
-      const times = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
-      setTime(times)
-    },1000)
-  },[])
 
   return (
     <div className={styles.header}>
-        {NAVLINK.find(nav=> nav.url === location.pathname)?.title} {time}
+        {NAVLINK.find(nav=> nav.url === location.pathname)?.title} {<Times />}
     </div>
   );
 };

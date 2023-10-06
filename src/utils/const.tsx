@@ -24,3 +24,5 @@ export const NAVLINK:ILink[] = [
   }, 
   
 ]
+
+export const maxLetters = 15
