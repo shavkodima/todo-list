@@ -1,9 +1,10 @@
 import {FC} from 'react';
+import Forms from '../../components/form/Form';
 
 const AddTask:FC = () => {
   return (
     <div>
-      Add Task
+      <Forms/>
     </div>
   );
 };

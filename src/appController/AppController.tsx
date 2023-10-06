@@ -8,7 +8,7 @@ import { ILink } from '../types/link.type';
 const AppController:FC = () => {
   return (
     <Routes>
-      <Route path='/' element={<LayoutApp/>}>
+      <Route path={NAVLINK[0].url} element={<LayoutApp/>}>
         <Route index element={<Home/>}/>
         {
           NAVLINK.map((nav:ILink)=>(

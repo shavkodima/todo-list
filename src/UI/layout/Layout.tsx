@@ -2,37 +2,46 @@ import { Layout } from 'antd';
 import Sider from 'antd/es/layout/Sider';
 import { Content } from 'antd/es/layout/layout';
 import Menu from 'antd/es/menu'
-import {FC} from 'react';
+import { FC } from 'react';
 import styles from './layout.module.css'
-import {Outlet} from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { NAVLINK } from '../../utils/const';
 import { ILink } from '../../types/link.type';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import Header from '../../components/header/Header';
+import {useLocation} from 'react-router-dom'
 
-const LayoutApp:FC = () => {
+const LayoutApp: FC = () => {
+  const location = useLocation()
   return (
-    <Layout style={{height:'100vh'}}>
-      <Sider breakpoint='lg'collapsedWidth={0} width={300}>
+    <Layout style={{ height: '100vh' }}>
+      <Sider breakpoint='lg' collapsedWidth={0} width={300}>
         <div className={styles.logo}>Todo List</div>
-        <Menu 
+        <Menu
           theme='dark'
           mode='inline'
           items={
             NAVLINK.map(
-              (nav:ILink, index)=> ({
-                key:String(nav.title),
-                label:(
+              (nav: ILink, index) => (
+                nav.menu ?
+                {
+                key: String(nav.title),
+                label: (
                   <Link to={nav.url}>{nav.title}</Link>
                 ),
-                
-              }))
+              }
+              : null
+              )
+            )
           }
         />
       </Sider>
       <Layout>
-          <Content style={{padding:'24px'}}>
-            {<Outlet/>}
-          </Content>
+        <Header />
+        <Content style={{ padding: '24px' }}>
+          {location.pathname !== NAVLINK[0].url ? <Link to={NAVLINK[0].url}>Back to home</Link> : ''}
+          {<Outlet />}
+        </Content>
       </Layout>
     </Layout>
   );
